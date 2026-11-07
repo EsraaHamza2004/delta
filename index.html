@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>لوحة تحكم منظومة الشكاوى الموحدة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0b2a4a;--blue:#1558c0;--dark:#0d2f52;--bg:#f3f6fa;--line:#e6ebf2;--muted:#7a889b;--text:#13294b}
+*{box-sizing:border-box;margin:0;font-family:'Cairo',sans-serif}
+body{background:var(--bg);color:var(--text);display:flex;min-height:100vh}
+/* sidebar */
+aside{width:205px;background:var(--navy);color:#cfe0f5;position:fixed;top:0;bottom:0;right:0;display:flex;flex-direction:column;padding:14px 10px;overflow-y:auto}
+.logo{display:flex;align-items:center;gap:10px;padding:6px 6px 14px;color:#fff}
+.logo .ic{width:38px;height:38px;border-radius:10px;background:#12406f;display:grid;place-items:center;font-size:18px}
+.logo b{display:block;font-size:15px;line-height:1.3}.logo small{font-size:10px;color:#8fb0d6}
+.grp{font-size:11px;color:#7f9bbd;margin:16px 8px 6px}
+.nav{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600;margin-bottom:3px;user-select:none}
+.nav:hover{background:#12406f}.nav.active{background:var(--blue);color:#fff}
+.nav .badge{margin-right:auto;background:#e03b3b;color:#fff;font-size:11px;border-radius:12px;padding:1px 8px}
+.user{margin-top:auto;display:flex;align-items:center;gap:10px;padding:12px 6px 0;border-top:1px solid #1b4268;color:#fff;font-size:12px}
+.user .av{width:34px;height:34px;border-radius:8px;background:#12406f;display:grid;place-items:center;font-size:11px;font-weight:700}
+.user small{display:block;color:#8fb0d6;font-size:10px}
+/* main */
+main{margin-right:205px;flex:1;padding:0 16px 30px;min-width:0}
+.top{display:flex;align-items:center;gap:12px;padding:16px 0;background:#fff;margin:0 -16px 20px;padding-inline:16px;border-bottom:1px solid var(--line)}
+.search{flex:0 1 285px;display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.search input{border:0;background:none;outline:0;flex:1;font-size:13px}
+.pill{background:#e6f7ee;color:#1a9a58;font-size:12px;font-weight:700;border-radius:20px;padding:5px 12px}
+.pill::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#22b86b;margin-left:6px}
+.btn{border:1px solid var(--line);background:#fff;border-radius:9px;padding:8px 16px;font-weight:700;font-size:13px;cursor:pointer;color:var(--text)}
+.btn.p{background:var(--blue);border-color:var(--blue);color:#fff}.btn.p:hover{background:#0f4799}
+.sp{margin-right:auto}
+.head{display:flex;align-items:flex-end;gap:10px;margin-bottom:16px}
+.head h1{font-size:23px;font-weight:800}.head p{font-size:13px;color:var(--muted)}
+.head .btns{margin-right:auto;display:flex;gap:10px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px}
+.stat{padding:14px 18px;border-top:4px solid var(--c);position:relative}
+.stat .t{display:flex;align-items:center;gap:10px;font-size:13px;color:#4a5b73;font-weight:600}
+.stat .i{width:34px;height:34px;border-radius:9px;background:color-mix(in srgb,var(--c) 14%,#fff);display:grid;place-items:center}
+.stat strong{display:block;font-size:30px;font-weight:800;margin:6px 0 2px}
+.stat small{font-size:11.5px;color:var(--muted)}.up{color:#1a9a58}.dn{color:#d94040}
+.cols{display:grid;grid-template-columns:1.9fr 1fr;gap:16px;margin-bottom:18px}
+.panel{padding:18px 20px}
+.panel h3{font-size:15px;font-weight:800;display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.tag{margin-right:auto;font-size:11px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:2px 10px;font-weight:600;color:var(--muted)}
+.bar{margin-bottom:14px;font-size:13px;font-weight:600}.bar div:first-child{display:flex;justify-content:space-between;margin-bottom:5px}
+.track{height:7px;background:#eef2f7;border-radius:5px;overflow:hidden}.track i{display:block;height:100%;border-radius:5px;margin-right:0}
+.mini{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.mini div{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:12px;color:var(--muted)}
+.mini b{display:block;font-size:22px;color:var(--text)}.mini .red{background:#fdecee;border-color:#f7cdd2}.mini .red b{color:#d12a3a}
+.prov{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:12.5px}
+.prov h4{font-size:13px;margin-bottom:6px}.prov p{display:flex;justify-content:space-between;color:#4a5b73;margin:3px 0}
+/* table */
+.log{padding:18px 20px}
+.log header{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.log h2{font-size:16px;font-weight:800}.log header small{display:block;color:var(--muted);font-size:12px;font-weight:400}
+.filters{margin-right:auto;display:flex;gap:10px}
+select{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 12px;font-size:13px;font-weight:600;cursor:pointer}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px;min-width:900px}
+th{color:var(--muted);font-weight:700;text-align:right;padding:10px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:10px 8px;border-bottom:1px solid #f0f3f8;vertical-align:middle}
+td small{display:block;color:var(--muted);font-size:11px}
+.id{color:var(--blue);font-weight:800}
+.chip{display:inline-block;border-radius:14px;padding:2px 12px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.urgent{background:#fde8ea;color:#d12a3a}.normal{background:#eef1f5;color:#5d6b7e}
+.new{background:#e5eefc;color:#1558c0}.check{background:#fff1d6;color:#b87408}.done{background:#dff5e8;color:#1a9a58}
+.act{display:flex;gap:6px;white-space:nowrap}
+.act button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:5px 10px;font-size:12px;font-weight:600;cursor:pointer}
+.act .v{background:var(--dark);color:#fff;border-color:var(--dark)}
+.empty{text-align:center;color:var(--muted);padding:24px}
+dialog{border:0;border-radius:14px;padding:22px 26px;min-width:320px;direction:rtl}dialog::backdrop{background:#0008}
+@media(max-width:900px){aside{display:none}main{margin-right:0}.stats{grid-template-columns:1fr 1fr}.cols{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<aside>
+  <div class="logo"><div class="ic">🕊️</div><div><b>منظومة الشكاوى الموحدة</b><small>مجلس الوزراء - لوحة التحكم</small></div></div>
+  <div class="grp">لوحة الإشراف</div>
+  <div class="nav active" data-v="home"><span>📊</span>الرئيسية</div>
+  <div class="nav" data-v="inbox"><span>📥</span>البلاغات الواردة<span class="badge">1,482</span></div>
+  <div class="nav" data-v="urgent"><span>🚨</span>الشكاوى العاجلة<span class="badge">47</span></div>
+  <div class="nav" data-v="follow"><span>⏳</span>متابعة التنفيذ</div>
+  <div class="grp">الإدارة والتحليلات</div>
+  <div class="nav" data-v="reports"><span>📈</span>التقارير والتحليلات</div>
+  <div class="nav" data-v="settings"><span>⚙️</span>إعدادات النظام</div>
+  <div class="user"><div class="av">م.ع</div><div>د. محمود عبد العزيز<small>مدير عام المتابعة المركزية</small></div></div>
+</aside>
+
+<main>
+  <div class="top">
+    <div class="search">🔍<input id="q" placeholder="ابحث رقم البلاغ، اسم الشاكي، أو المحافظة..."></div>
+    <span class="pill">النظام مباشر ومستقر</span>
+    <button class="btn" title="التنبيهات">🔔</button>
+    <button class="btn p sp" id="export">📄 تصدير التقرير اليومي</button>
+  </div>
+
+  <div class="head">
+    <div><h1 id="title">لوحة التحكم الرئيسية</h1><p id="sub">نظرة عامة على أداء المنظومة وحالة البلاغات</p></div>
+    <div class="btns"><button class="btn" id="refresh">🔄 تحديث البيانات</button><button class="btn p" id="add">➕ تسجيل بلاغ هاتفي استثنائي</button></div>
+  </div>
+
+  <section class="stats">
+    <div class="card stat" style="--c:#1558c0"><div class="t"><span class="i">📋</span>إجمالي البلاغات المقدمة</div><strong>12,840</strong><small><span class="up">↑ 8.4%</span> مقارنة بالشهر السابق</small></div>
+    <div class="card stat" style="--c:#f0a020"><div class="t"><span class="i">⏳</span>بلاغات قيد المعالجة / التحقيق</div><strong>1,245</strong><small><span class="dn">↓ 3.2%</span> انخفاض في تراكم الطلبات</small></div>
+    <div class="card stat" style="--c:#22b86b"><div class="t"><span class="i">✅</span>الشكاوى المغلقة / المكتملة</div><strong>11,595</strong><small><span class="up">↑ 94.2%</span> نسبة الحسم الإجمالية</small></div>
+    <div class="card stat" style="--c:#8a4ff0"><div class="t"><span class="i">⚡</span>متوسط زمن الاستجابة</div><strong>24 ساعة</strong><small><span class="up">↑ 6 ساعات أسرع</span> من الهدف القياسي</small></div>
+  </section>
+
+  <section class="cols">
+    <div class="card panel">
+      <h3>🏛️ تصنيف الشكاوى وتوزيعها حسب القطاعات الأكثر تلقياً <span class="tag">آخر 30 يوماً</span></h3>
+      <div class="bar"><div><span>💧 المرافق (مياه، كهرباء، غاز)</span><span>4,820 بلاغ (38%)</span></div><div class="track"><i style="width:38%;background:#1558c0"></i></div></div>
+      <div class="bar"><div><span>🛣️ الطرق والكباري والنقل</span><span>3,210 بلاغ (25%)</span></div><div class="track"><i style="width:25%;background:#f0a020"></i></div></div>
+      <div class="bar"><div><span>🧹 النظافة وتدوير المخلفات</span><span>2,570 بلاغ (20%)</span></div><div class="track"><i style="width:20%;background:#22b86b"></i></div></div>
+      <div class="bar"><div><span>🏥 الصحة والرقابة الدوائية</span><span>2,240 بلاغ (17%)</span></div><div class="track"><i style="width:17%;background:#e03b3b"></i></div></div>
+    </div>
+    <div class="card panel">
+      <h3>🚨 كفاءة التعامل والتدخل السريع</h3>
+      <div class="mini"><div class="red">بلاغات حرجة عاجلة<b>3 بلاغات</b></div><div>تمت إحالتها للوزارات<b>89%</b></div></div>
+      <div class="prov"><h4>📌 أعلى المحافظات تسجيلاً:</h4>
+        <p><span>القاهرة الكبرى</span><span>38% (4,880)</span></p><p><span>الجيزة</span><span>24% (3,081)</span></p>
+        <p><span>الإسكندرية</span><span>18% (2,311)</span></p><p><span>الدقهلية وباقي المحافظات</span><span>20% (2,568)</span></p></div>
+    </div>
+  </section>
+
+  <section class="card log">
+    <header>
+      <div><h2>سجل إدارة البلاغات والشكاوى الواردة</h2><small id="count"></small></div>
+      <div class="filters">
+        <select id="fs"><option value="">جميع الحالات</option><option>جديد</option><option>جاري الفحص</option><option>تم الحل</option></select>
+        <select id="fi"><option value="">كل درجات الأهمية</option><option value="عاجل">عاجل فقط</option><option value="عادي">عادي فقط</option></select>
+        <select id="fg"><option value="">جميع المحافظات</option><option>القاهرة</option><option>الجيزة</option><option>الإسكندرية</option><option>الشرقية</option><option>الدقهلية</option></select>
+      </div>
+    </header>
+    <div class="tw"><table>
+      <thead><tr><th>رقم البلاغ</th><th>اسم الشاكي</th><th>تصنيف الشكوى</th><th>المحافظة / المنطقة</th><th>تاريخ التقديم</th><th>درجة الأهمية</th><th>حالة البلاغ</th><th>إجراءات المعالجة</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table></div>
+  </section>
+</main>
+
+<dialog id="dlg"><div id="dbody"></div><br><button class="btn p" onclick="dlg.close()">إغلاق</button></dialog>
+
+<script>
+const D=[
+["EG-90412","المهندس أحمد ممدوح السعيد","01098765432","المرافق","💧","القاهرة","مدينة نصر - الحي السابع","2025-05-12 09:30 ص","عاجل","جديد"],
+["EG-90388","سارة عبد الرحمن محمود","01123456789","الطرق","🛣️","الجيزة","شارع فيصل الرئيسي - محطة المساحة","2025-05-11 02:15 م","عاجل","جاري الفحص"],
+["EG-90350","الحاج إبراهيم خليل النجار","01224567890","النظافة","🧹","الإسكندرية","حي المنتزه - سيدي بشر قبلي","2025-05-11 11:00 ص","عادي","تم الحل"],
+["EG-90299","د. منى مصطفى كامل","01001239874","الصحة","🏥","الشرقية","الزقازيق - قسم ثان","2025-05-10 08:45 م","عاجل","جاري الفحص"],
+["EG-90210","عصام عبد الفتاح الشامي","01198712345","المرافق","⚡","الدقهلية","المنصورة - حي توريل","2025-05-10 10:20 ص","عادي","جديد"],
+["EG-90184","نجلاء سمير يوسف","01555123489","الطرق","🛣️","القاهرة","مصر الجديدة - ميدان الحجاز","2025-05-09 04:10 م","عادي","تم الحل"],
+["EG-90111","خالد عبد الوهاب جاد","01065432190","الصحة","🏥","الجيزة","الهرم - شارع العريش","2025-05-08 01:00 م","عاجل","تم الحل"],
+["EG-90050","حسام الدين فؤاد","01211223344","النظافة","🧹","القاهرة","حلوان - مساكن الزلزال","2025-05-07 05:40 م","عادي","جاري الفحص"]];
+const V={home:["لوحة التحكم الرئيسية","نظرة عامة على أداء المنظومة وحالة البلاغات","","",""],
+inbox:["صندوق البلاغات والشكاوى الواردة","استعراض كل الشكاوى المفتوحة والجديدة الموجهة لجهات الدولة","","",""],
+urgent:["غرفة الشكاوى والبلاغات العاجلة (خط أحمر)","الحالات التي تتطلب استجابة ميدانية فورية خلال أقل من 6 ساعات","","عاجل",""],
+follow:["متابعة تنفيذ الإجراءات","البلاغات قيد الفحص والمتابعة مع الجهات المختصة","جاري الفحص","عاجل",""],
+reports:["التقارير الإحصائية والتحليلات الجغرافية","بيانات قياس رضا المواطنين ومتوسط مدد الاستجابة لكل وزارة ومحافظة","","",""],
+settings:["إعدادات النظام","إدارة الصلاحيات وقواعد التوجيه والإشعارات","","",""]};
+const $=id=>document.getElementById(id);
+const sc={"جديد":"new","جاري الفحص":"check","تم الحل":"done"},si={"جديد":"●","جاري الفحص":"⏳","تم الحل":"✓"};
+function render(){
+  const q=$('q').value.trim(),s=$('fs').value,i=$('fi').value,g=$('fg').value;
+  const r=D.filter(x=>(!s||x[9]===s)&&(!i||x[8]===i)&&(!g||x[5]===g)&&(!q||x.join(' ').includes(q)));
+  $('count').textContent=`عرض ${r.length} من أصل ${D.length} بلاغ مسجل`;
+  $('rows').innerHTML=r.length?r.map(x=>`<tr>
+   <td class="id">${x[0]}</td><td><b>${x[1]}</b><small>${x[2]}</small></td><td>${x[4]} ${x[3]}</td>
+   <td><b>${x[5]}</b><small>${x[6]}</small></td><td>${x[7]}</td>
+   <td><span class="chip ${x[8]==='عاجل'?'urgent':'normal'}">${x[8]==='عاجل'?'⚡ عاجل':'• عادي'}</span></td>
+   <td><span class="chip ${sc[x[9]]}">${si[x[9]]} ${x[9]}</span></td>
+   <td class="act"><button class="v" onclick="show('${x[0]}')">👁 عرض التفاصيل</button><button onclick="alert('تمت إحالة البلاغ ${x[0]} للجهة المختصة')">📨 إحالة</button><button onclick="setS('${x[0]}')">⚙ الحالة</button></td></tr>`).join(''):'<tr><td colspan="8" class="empty">لا توجد بلاغات مطابقة</td></tr>';
+}
+function show(id){const x=D.find(d=>d[0]===id);$('dbody').innerHTML=`<h3>بلاغ ${x[0]}</h3><p>الشاكي: ${x[1]}</p><p>الهاتف: ${x[2]}</p><p>التصنيف: ${x[3]}</p><p>المكان: ${x[5]} - ${x[6]}</p><p>التاريخ: ${x[7]}</p><p>الأهمية: ${x[8]} | الحالة: ${x[9]}</p>`;dlg.showModal()}
+function setS(id){const x=D.find(d=>d[0]===id),o=["جديد","جاري الفحص","تم الحل"];x[9]=o[(o.indexOf(x[9])+1)%3];render()}
+document.querySelectorAll('.nav').forEach(n=>n.onclick=()=>{
+  document.querySelectorAll('.nav').forEach(m=>m.classList.remove('active'));n.classList.add('active');
+  const v=V[n.dataset.v];$('title').textContent=v[0];$('sub').textContent=v[1];$('fs').value=v[2];$('fi').value=v[3];$('fg').value=v[4];render()});
+['q','fs','fi','fg'].forEach(i=>$(i).addEventListener('input',render));
+$('refresh').onclick=()=>{$('refresh').textContent='✔ تم التحديث';setTimeout(()=>$('refresh').textContent='🔄 تحديث البيانات',1200)};
+$('add').onclick=()=>{$('dbody').innerHTML='<h3>تسجيل بلاغ هاتفي استثنائي</h3><p>اربط هذا الزر بنموذج التسجيل الخاص بك.</p>';dlg.showModal()};
+$('export').onclick=()=>window.print();
+render();
+</script>
+</body>
+</html>
